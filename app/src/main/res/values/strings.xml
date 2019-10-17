@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Spirulina</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password???</string>
+    <string name="sign_in">Sign In</string>
+    <string name="to_sign_up">Don\'t have account yet?</string>
+    <string name="or_login">Or Login</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="to_sign_in">Already have account???</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="title_activity_location">Map</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="notification">Có thể thu hoạch!!!</string>
+    <string name="system_control">Điều khiển thiết bị</string>
+    <string name="system_parameter">Thông số dàn tảo</string>
+</resources>
