@@ -35,6 +35,7 @@ class DeviceControlActivity : AppCompatActivity() {
     private var stateBlind = false
     private var stateSoda = false
     private var stateHarvest = false
+    private var stateLed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +94,16 @@ class DeviceControlActivity : AppCompatActivity() {
                 publishMqttMessage("bkstar/actuator_1/","pump_off")
             }
         }
+        imgLed.setOnClickListener {
+            stateLed = !stateLed
+            if(stateLed){
+                imgLed.setImageResource(R.drawable.ic_diode_on)
+                publishMqttMessage("bkstar/actuator_6/","led_on" )
+            } else {
+                imgLed.setImageResource(R.drawable.ic_diode_off)
+                publishMqttMessage("bkstar/actuator_6/", "led_off")
+            }
+        }
         imgMist.setOnClickListener {
             stateMist = !stateMist
             if (stateMist) {
@@ -139,14 +150,25 @@ class DeviceControlActivity : AppCompatActivity() {
         val clientId = MqttClient.generateClientId()
         client = MqttAndroidClient(applicationContext, serverUri, clientId)
         val options = MqttConnectOptions()
-//        options.isAutomaticReconnect = true
+        options.isAutomaticReconnect = true
         options.keepAliveInterval = 300         // tăng thời gian keepAlive để duy trì kết nối
         options.connectionTimeout = 240000
         options.userName = USER
         options.password = PASSWORD.toCharArray()
         try {
             val token: IMqttToken = client.connect(options)
-            token.actionCallback = object : IMqttActionListener {
+//            token.actionCallback = object : IMqttActionListener {
+//                override fun onSuccess(asyncActionToken: IMqttToken?) {
+//                    Log.d("debug", "onSuccess")
+//                    Toast.makeText(this@DeviceControlActivity, "Kết nối thành công", Toast.LENGTH_SHORT).show()
+//                }
+//
+//                override fun onFailure(asyncActionToken: IMqttToken?, exception: Throwable?) {
+//                    Log.d("debug", "onFailure:  ${exception.toString()}")
+//                    Toast.makeText(this@DeviceControlActivity, "Kết nối thất bại", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+            token.actionCallback = object : MqttCallbackExtended, IMqttActionListener {
                 override fun onSuccess(asyncActionToken: IMqttToken?) {
                     Log.d("debug", "onSuccess")
                     Toast.makeText(this@DeviceControlActivity, "Kết nối thành công", Toast.LENGTH_SHORT).show()
@@ -156,6 +178,30 @@ class DeviceControlActivity : AppCompatActivity() {
                     Log.d("debug", "onFailure:  ${exception.toString()}")
                     Toast.makeText(this@DeviceControlActivity, "Kết nối thất bại", Toast.LENGTH_SHORT).show()
                 }
+
+                override fun connectComplete(reconnect: Boolean, serverURI: String?) {
+                    if (reconnect) {
+                        Toast.makeText(this@DeviceControlActivity, "Reconnected to : $serverURI",Toast.LENGTH_SHORT).show()
+                        // Because Clean Session is true, we need to re-subscribe
+                        //subscribeToTopic();
+                    } else {
+                        Toast.makeText(this@DeviceControlActivity, "Connected to : $serverURI",Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+
+                override fun messageArrived(topic: String?, message: MqttMessage?) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun connectionLost(cause: Throwable?) {
+                    Toast.makeText(this@DeviceControlActivity,"Lost Connection", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun deliveryComplete(token: IMqttDeliveryToken?) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
             }
         } catch (e: MqttException) {
             Log.d("debug", e.message)

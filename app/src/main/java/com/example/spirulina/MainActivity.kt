@@ -235,6 +235,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.itSetting -> {
                 Toast.makeText(this@MainActivity,"Clicked on Setting", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@MainActivity,EsptouchDemoActivity::class.java)
+                startActivity(intent)
             }
             R.id.itRefresh -> {
                 getData()

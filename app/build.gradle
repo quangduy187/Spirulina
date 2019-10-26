@@ -55,10 +55,11 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.macroyau:thingspeakandroid:0.2.2'
 
-    implementation('org.eclipse.paho:org.eclipse.paho.android.service:1.0.2') {
-        exclude module: 'support-v4'
-    }
+//    implementation('org.eclipse.paho:org.eclipse.paho.android.service:1.0.2') {
+//        exclude module: 'support-v4'
+//    }
 
-//    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
-//    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation project(path: ':esptouch')
 }
