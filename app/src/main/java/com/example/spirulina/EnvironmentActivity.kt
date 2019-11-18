@@ -45,7 +45,7 @@ class EnvironmentActivity : AppCompatActivity() {
         supportActionBar!!.title = "$id $name"
 
         tsChannel = ThingSpeakChannel(CHANNEL_ID,READ_API_KEY)
-        // getData() Lấy dữ liệu lần đầu tiên để khởi tạo
+        getData() // Lấy dữ liệu lần đầu tiên để khởi tạo
 
         //Image Warning send to Device Control
         imgCO.setOnClickListener {
@@ -129,6 +129,7 @@ class EnvironmentActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item!!.itemId){
             R.id.itRefreshEnvi -> {
+                Toast.makeText(this@EnvironmentActivity, "Update Data", Toast.LENGTH_SHORT).show()
                 getData()
             }
         }

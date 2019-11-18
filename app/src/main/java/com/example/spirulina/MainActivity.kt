@@ -17,7 +17,6 @@ import com.example.spirulina.Config.Config
 import com.example.spirulina.Object.Spirulina
 import com.google.android.material.navigation.NavigationView
 import com.macroyau.thingspeakandroid.ThingSpeakChannel
-import com.macroyau.thingspeakandroid.ThingSpeakLineChart
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_screen.*
@@ -25,10 +24,10 @@ import kotlinx.android.synthetic.main.main_screen.*
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var  tsChannel: ThingSpeakChannel
-    lateinit var  tsChart : ThingSpeakLineChart
-    private val READ_API_KEY = "7HS6W36TS62SJ11R"
+//    private val READ_API_KEY = "7HS6W36TS62SJ11R"
+    private val READ_API_KEY = "W87B38VLJLACOZ85"
     private val WRITE_API_KEY = "LOLWWMTQTYKGED7W"
-    private val CHANNEL_ID: Long = 881370
+    private val CHANNEL_ID: Long = 913714
     private lateinit var mSharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,8 +49,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Toast.makeText(this@MainActivity,"$id  $name",Toast.LENGTH_LONG).show()
         supportActionBar!!.title = "$id $name"
 
-        //tsChannel = ThingSpeakChannel(CHANNEL_ID,READ_API_KEY)
-//        getData()
 
         // Switch to Select Area
         val headerView = nav_view.getHeaderView(0)
@@ -101,8 +98,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
+        tsChannel = ThingSpeakChannel(CHANNEL_ID,READ_API_KEY)
+        getData() // Lấy dữ liệu lần đầu tiên để khởi tạo giá trị
 
-        //getData() // Lấy dữ liệu lần đầu tiên để khởi tạo giá trị
         //Floating button
         fabEnvironment.setOnClickListener {
             val intent = Intent(this@MainActivity,EnvironmentActivity::class.java)
@@ -119,6 +117,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun getData(){
+        Log.d("AAA", "On here")
         var rawData : Spirulina
         tsChannel.setChannelFeedUpdateListener { channelId, channelName, channelFeed ->
             Log.d("AAA", "$channelId $channelName")
@@ -131,9 +130,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val pH = channelFeed.feeds[position].field5.toFloat()
             val abs = channelFeed.feeds[position].field6.toInt()
             val sColor = channelFeed.feeds[position].field7.toLong()
+
+            Log.d("AAA", "Nhiệt độ $wTemp")
+            Log.d("AAA", "Ánh sáng $light pH $pH")
+
             rawData = Spirulina(wTemp,wNTU,wSpeed,light,pressure,pH,abs,sColor)
             changeXML(rawData)
         }
+        tsChannel.loadChannelFeed()
     }
 
     private fun changeXML(rawData: Spirulina){
@@ -239,6 +243,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(intent)
             }
             R.id.itRefresh -> {
+                Toast.makeText(this@MainActivity, "Update Data", Toast.LENGTH_SHORT).show()
                 getData()
             }
         }
