@@ -10,22 +10,9 @@
             app:showAsAction="always"/>
 
     <item
-            android:id="@+id/itShareFarm"
-            android:icon="@drawable/ic_share"
-            android:title="Share"
+            android:id="@+id/itSettingMain"
+            android:icon="@drawable/ic_lock_black_24dp"
+            android:title="Refresh"
             app:showAsAction="always"/>
-
-    <item
-            android:id="@+id/itMore"
-            android:icon="@drawable/ic_more_vert_black_24dp"
-            android:title="More"
-            app:showAsAction="ifRoom">
-        <menu>
-            <item
-                    android:id="@+id/itSetting"
-                    android:title="Setting"
-                    app:showAsAction="ifRoom" />
-        </menu>
-    </item>
 
 </menu>

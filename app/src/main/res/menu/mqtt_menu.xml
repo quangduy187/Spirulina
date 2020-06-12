@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+    <item
+            android:id="@+id/itBluetooth"
+            android:icon="@drawable/ic_blueetooth_off"
+            android:title="Bluetooth"
+            android:visible="false"
+            app:showAsAction="always"/>
+
     <item
             android:id="@+id/itMQTT"
-            android:icon="@drawable/ic_big_data"
-            android:title="MQTT Config"
-            app:showAsAction="always"/>
+            android:icon="@drawable/ic_share"
+            android:title="Bluetooth Config"
+            app:showAsAction="ifRoom"/>
+
+    <item
+            android:id="@+id/itMore"
+            android:icon="@drawable/ic_more_vert_black_24dp"
+            android:title="More"
+            app:showAsAction="ifRoom">
+        <menu>
+            <item
+                    android:id="@+id/itStart"
+                    android:title="Set Up"
+                    android:visible="true"
+                    app:showAsAction="ifRoom"/>
+        </menu>
+    </item>
 
 </menu>
